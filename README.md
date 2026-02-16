@@ -1,6 +1,8 @@
 # AI Library Portal
 
-![Project Logo](https://via.placeholder.com/150)
+```markdown
+![Project Logo](public/logo.png)
+```
 
 ## About The Project
 
