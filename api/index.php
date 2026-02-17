@@ -1,6 +1,9 @@
 <?php
 
 // Forward the request to the Laravel application for Vercel deployment.
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // 1. Create required temporary storage directories (Vercel filesystem is read-only except /tmp)
 $storageFolders = [
