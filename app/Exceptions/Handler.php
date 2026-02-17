@@ -26,5 +26,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        // Force JSON responses for all /api/* requests so errors are never returned as HTML
+        $this->renderable(function (Throwable $e, $request) {
+            if ($request->is('api/*') || $request->expectsJson()) {
+                $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'error' => class_basename($e),
+                ], $status);
+            }
+        });
     }
 }
