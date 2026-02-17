@@ -42,7 +42,16 @@ foreach ($envOverrides as $key => $value) {
   $_SERVER[$key] = $value;
 }
 
-// 3. Load Composer autoloader
+// 3. Fix SCRIPT_NAME so Laravel correctly resolves route paths.
+//    Vercel sets SCRIPT_NAME to /api/index.php, which makes Laravel
+//    treat /api as the base path and strip it from REQUEST_URI.
+//    This causes all /api/* routes to 404 because Laravel sees /chat
+//    instead of /api/chat.
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+$_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
+$_SERVER['PHP_SELF'] = '/index.php';
+
+// 4. Load Composer autoloader
 require __DIR__ . '/../vendor/autoload.php';
 
 // 4. Bootstrap the Laravel application
