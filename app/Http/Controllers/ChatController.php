@@ -35,15 +35,28 @@ class ChatController extends Controller
       // Set headers for SSE
       header('X-Accel-Buffering: no');
 
-      foreach ($this->assistant->ask($message, $searchMode) as $chunk) {
-        echo "data: {$chunk}\n\n";
-        ob_flush();
+      try {
+        foreach ($this->assistant->ask($message, $searchMode) as $chunk) {
+          echo "data: {$chunk}\n\n";
+          if (ob_get_level() > 0) {
+            ob_flush();
+          }
+          flush();
+        }
+
+        echo "data: " . json_encode(['type' => 'done', 'content' => '']) . "\n\n";
+        if (ob_get_level() > 0) {
+          ob_flush();
+        }
+        flush();
+      } catch (\Throwable $e) {
+        $error = json_encode(['type' => 'error', 'content' => $e->getMessage()]);
+        echo "data: {$error}\n\n";
+        if (ob_get_level() > 0) {
+          ob_flush();
+        }
         flush();
       }
-
-      echo "data: " . json_encode(['type' => 'done', 'content' => '']) . "\n\n";
-      ob_flush();
-      flush();
     }, 200, [
       'Content-Type' => 'text/event-stream',
       'Cache-Control' => 'no-cache',
