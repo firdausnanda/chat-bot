@@ -5,7 +5,7 @@ export const useChatStream = () => {
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Halo! Saya Pustakawan AI Anda. Saya bisa membantu Anda menjelajahi perpustakaan dan menjawab pertanyaan dari dokumen PDF yang diunggah. Bagaimana saya dapat membantu?',
+      content: 'Halo Sobat Pustaka! 👋 Saya Pupi, pustakawan virtual di sini. Mau cari buku, tanya-tanya soal koleksi perpustakaan, atau butuh info tentang perpustakaan? Langsung aja tanya, saya siap bantu! 😊',
       sources: []
     }
   ]);
